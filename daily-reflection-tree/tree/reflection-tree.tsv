@@ -1,0 +1,37 @@
+id	parentId	type	text	options	target	signal
+START	null	start	Good evening. Let's take a quiet look at your day — no judgment, just honesty.			
+A1_OPEN	START	question	How would you describe today in one word?	Productive|Mixed|Tough|Frustrating		
+A1_D1	A1_OPEN	decision		answer=Productive|Mixed:A1_Q_HIGH;answer=Tough|Frustrating:A1_Q_LOW		
+A1_Q_HIGH	A1_D1	question	You said "{A1_OPEN.answer}". When something went well today, what made it happen?	I prepared well|I adapted on the fly|The team came through|I got lucky		axis1:internal
+A1_Q_LOW	A1_D1	question	You said "{A1_OPEN.answer}". When things got difficult, what was your first instinct?	Figure out what I could control|Push through alone|Wait for someone to step in|Feel stuck and overwhelmed		axis1:external
+A1_D2A	A1_Q_HIGH	decision		answer=I prepared well|I adapted on the fly:A1_Q2_AGENCY;answer=The team came through|I got lucky:A1_Q2_LUCK		
+A1_D2B	A1_Q_LOW	decision		answer=Figure out what I could control|Push through alone:A1_Q2_AGENCY;answer=Wait for someone to step in|Feel stuck and overwhelmed:A1_Q2_LUCK		
+A1_Q2_AGENCY	null	question	Did you make any decision today — big or small — that you felt fully in control of?	Yes, and it worked out|Yes, but it didn't go as planned|Not really — the day dictated my moves|I don't think I had real choices today		axis1:internal
+A1_Q2_LUCK	null	question	When something broke down today, how long did you spend thinking about who caused it?	Briefly — I moved to fixing it|A while — I kept replaying it|I focused mostly on the circumstances|I reflected on what I could have done differently		axis1:external
+A1_D3A	A1_Q2_AGENCY	decision		answer=Yes, and it worked out|Yes, but it didn't go as planned:A1_R_INT;answer=Not really — the day dictated my moves|I don't think I had real choices today:A1_R_EXT		
+A1_D3B	A1_Q2_LUCK	decision		answer=Briefly — I moved to fixing it|I reflected on what I could have done differently:A1_R_INT;answer=A while — I kept replaying it|I focused mostly on the circumstances:A1_R_EXT		
+A1_R_INT	null	reflection	You see your hand in what happened today. That's agency — not everything went your way, but you stayed in the driver's seat. That matters more than the outcome.			axis1:internal
+A1_R_EXT	null	reflection	A tough day pulls attention outward — to what others did or didn't do. Fair enough. But somewhere in there, you made a call. What was it? Even choosing to wait is a choice.			axis1:external
+BRIDGE_1_2A	A1_R_INT	bridge	Now let's shift — from how you handled things, to what you gave today.		A2_OPEN	
+BRIDGE_1_2B	A1_R_EXT	bridge	Let's move to a different lens — not what happened to you, but what you put in.		A2_OPEN	
+A2_OPEN	null	question	Think about one interaction you had today. Were you giving or expecting?	I helped someone without being asked|I taught or shared something useful|I needed support from others|I felt my effort wasn't being noticed		
+A2_D1	A2_OPEN	decision		answer=I helped someone without being asked|I taught or shared something useful:A2_Q_CONTRIB;answer=I needed support from others|I felt my effort wasn't being noticed:A2_Q_ENTIT		
+A2_Q_CONTRIB	A2_D1	question	Did you do something today that no one will probably notice or credit you for?	Yes — and that's fine|Yes — though I wish someone had noticed|No, I stuck to what was expected|I can't think of anything like that		axis2:contribution
+A2_Q_ENTIT	A2_D1	question	At any point today, did you feel your effort wasn't being seen?	Yes, and it bothered me more than I'd like|Yes, but I reminded myself why I was doing it|Not really — I wasn't tracking that|I was too focused on the work to notice		axis2:entitlement
+A2_D2A	A2_Q_CONTRIB	decision		answer=Yes — and that's fine|I was too focused on the work to notice:A2_R_CONTRIB;answer=Yes — though I wish someone had noticed|No, I stuck to what was expected|I can't think of anything like that:A2_R_ENTIT		
+A2_D2B	A2_Q_ENTIT	decision		answer=Yes, but I reminded myself why I was doing it|Not really — I wasn't tracking that:A2_R_CONTRIB;answer=Yes, and it bothered me more than I'd like:A2_R_ENTIT		
+A2_R_CONTRIB	null	reflection	You gave today — quietly, without scorekeeping. That kind of contribution is the rarest. It doesn't need an audience to be real.			axis2:contribution
+A2_R_ENTIT	null	reflection	Wanting recognition isn't wrong — it's human. But notice what you're tracking. The ledger of what you're owed is heavier to carry than it looks.			axis2:entitlement
+BRIDGE_2_3A	A2_R_CONTRIB	bridge	One more lens. Let's look at how wide your circle of concern was today.		A3_OPEN	
+BRIDGE_2_3B	A2_R_ENTIT	bridge	Let's zoom out. Beyond yourself, beyond your work — who else was in your field of view today?		A3_OPEN	
+A3_OPEN	null	question	When you mentally close the day, whose face or situation comes to mind first?	Mine — my wins, my stress, my to-dos|A teammate I worked closely with|Someone who had a harder day than me|The people our work ultimately serves		
+A3_D1	A3_OPEN	decision		answer=Mine — my wins, my stress, my to-dos:A3_Q_SELF;answer=A teammate I worked closely with|Someone who had a harder day than me|The people our work ultimately serves:A3_Q_OTHER		
+A3_Q_SELF	A3_D1	question	What stressed you most today?	My own workload or performance|A situation affecting my team|Something a colleague was going through|A gap between what we delivered and what users needed		axis3:selfcentric
+A3_Q_OTHER	A3_D1	question	Did anything today remind you why the work matters beyond your own goals?	Yes — clearly|I had a brief moment of that|Not today — it was very task-driven|I haven't thought about it that way recently		axis3:altrocentric
+A3_D2A	A3_Q_SELF	decision		answer=My own workload or performance:A3_R_SELF;answer=A situation affecting my team|Something a colleague was going through|A gap between what we delivered and what users needed:A3_R_OTHER		
+A3_D2B	A3_Q_OTHER	decision		answer=Yes — clearly|I had a brief moment of that:A3_R_OTHER;answer=Not today — it was very task-driven|I haven't thought about it that way recently:A3_R_SELF		
+A3_R_OTHER	null	reflection	You looked beyond yourself today — at teammates, at the people your work serves. That kind of perspective doesn't come automatically. It's a practice, and you practiced it.			axis3:altrocentric
+A3_R_SELF	null	reflection	Today was inward-facing. That's not a flaw — sometimes survival requires it. But meaning tends to live just outside that circle. What might tomorrow look like if you widened it slightly?			axis3:selfcentric
+SUMMARY_A	A3_R_OTHER	summary	Today you leaned {axis1.dominant} on agency, {axis2.dominant} on contribution, and {axis3.dominant} on concern. The goal isn't to score well. It's to see clearly. Tomorrow is a fresh day.			
+SUMMARY_B	A3_R_SELF	summary	Today you leaned {axis1.dominant} on agency, {axis2.dominant} on contribution, and {axis3.dominant} on concern. The goal isn't to score well. It's to see clearly. Tomorrow is a fresh day.			
+END	null	end	See you tomorrow.			
